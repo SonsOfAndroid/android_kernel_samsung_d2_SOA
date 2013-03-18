@@ -466,7 +466,7 @@ static ssize_t store_scaling_max_freq
 		return -EINVAL;
 
 	if (policy->cpu == BOOT_CPU) {
-		if (value >= MAX_FREQ_LIMIT)
+		if (value >= MAX_FREQ_BOOT_LIMIT)
 			cpufreq_set_limit_defered(USER_MAX_STOP, value);
 		else if (value >= MIN_FREQ_LIMIT)
 			cpufreq_set_limit_defered(USER_MAX_START, value);
