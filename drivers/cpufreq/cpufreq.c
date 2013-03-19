@@ -466,7 +466,7 @@ static ssize_t store_scaling_max_freq
 		return -EINVAL;
 
 	if (policy->cpu == BOOT_CPU) {
-		if (value >= MAX_FREQ_LIMIT)
+		if (value >= MAX_FREQ_BOOT_LIMIT)
 			cpufreq_set_limit_defered(USER_MAX_STOP, value);
 		else if (value >= MIN_FREQ_LIMIT)
 			cpufreq_set_limit_defered(USER_MAX_START, value);
@@ -1897,9 +1897,9 @@ static DEFINE_MUTEX(set_cpu_freq_lock);
 
 static unsigned long freq_limit_start_flag;
 static unsigned int app_min_freq_limit = MIN_FREQ_LIMIT;
-static unsigned int app_max_freq_limit = MAX_FREQ_LIMIT_STARTUP;
+static unsigned int app_max_freq_limit = MAX_FREQ_LIMIT;
 static unsigned int user_min_freq_limit = MIN_FREQ_LIMIT;
-static unsigned int user_max_freq_limit = MAX_FREQ_LIMIT_STARTUP;
+static unsigned int user_max_freq_limit = MAX_FREQ_LIMIT;
 
 static int cpufreq_set_limits_off
 	(int cpu, unsigned int min, unsigned int max)
@@ -2002,19 +2002,19 @@ int cpufreq_set_limit(unsigned int flag, unsigned int value)
 	if (flag == APPS_MAX_START)
 		app_max_freq_limit = value;
 	else if (flag == APPS_MAX_STOP)
-		app_max_freq_limit = value;
+		app_max_freq_limit = MAX_FREQ_LIMIT;
 	else if (flag == APPS_MIN_START)
 		app_min_freq_limit = value;
 	else if (flag == APPS_MIN_STOP)
-		app_min_freq_limit = value;
+		app_min_freq_limit = MIN_FREQ_LIMIT;
 	else if (flag == USER_MAX_START)
 		user_max_freq_limit = value;
 	else if (flag == USER_MAX_STOP)
-		user_max_freq_limit = value;
+		user_max_freq_limit = MAX_FREQ_LIMIT;
 	else if (flag == USER_MIN_START)
 		user_min_freq_limit = value;
 	else if (flag == USER_MIN_STOP)
-		user_min_freq_limit = value;
+		user_min_freq_limit = MIN_FREQ_LIMIT;
 
 	/*  set/clear bits */
 	if (flag%10 == 0)
